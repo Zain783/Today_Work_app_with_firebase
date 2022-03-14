@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:today_work_firebase/screens/tasks_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -151,6 +152,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     final response =
                                         await _auth.signInWithEmailAndPassword(
                                             email: _email, password: _password);
+                                            final prefs = await SharedPreferences.getInstance();
+                                            await prefs.setString(
+                                      'email', _email.toString());
+                                      await prefs.setString(
+                                      'password', _password.toString());
                                     if (response != null) {
                                       Navigator.pushNamed(
                                           context, TasksScreen.id);

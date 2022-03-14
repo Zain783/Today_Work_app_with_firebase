@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:today_work_firebase/screens/tasks_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -165,6 +166,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     "Email": _cred.user!.email,
                                     "Name": _name
                                   });
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setString(
+                                      'email', _email.toString());
+                                  await prefs.setString(
+                                      'password', _password.toString());
+
                                   Navigator.pushNamed(context, TasksScreen.id);
                                 } catch (e) {
                                   print(e.toString());
